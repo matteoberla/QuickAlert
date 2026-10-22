@@ -181,6 +181,25 @@ class QuickAlert {
       );
     }
 
+    if (options.type == QuickAlertType.confirm) {
+      // tap fuori dal dialog = annulla
+      child = Stack(
+        fit: StackFit.expand,
+        children: [
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              options.timer?.cancel();
+              options.onCancelBtnTap != null
+                  ? options.onCancelBtnTap!()
+                  : Navigator.pop(context);
+            },
+          ),
+          child,
+        ],
+      );
+    }
+
     return showGeneralDialog(
       barrierColor: barrierColor ?? Colors.black.withOpacity(0.5),
       transitionBuilder: (context, anim1, __, widget) {
